@@ -82,9 +82,10 @@ GROUP BY game.id
 -- Sort your result by mdate, matchid, team1 and team2.
 SELECT mdate,
   team1,
-  SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) score1,
+  SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END)score1,
   team2,
-  SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
-FROM game JOIN goal ON goal.matchid = game.id
-GROUP BY game.id
-ORDER BY mdate, matchid, team1, team2
+  SUM(CASE wHEN teamid=team2 THEN 1 ELSE 0 END)score2
+FROM game LEFT JOIN goal ON game.id=goal.matchid
+GROUP BY mdate,team1,team2
+ORDER BY mdate, matchid,team1,team2
+-- Previous solution was not returning games where no goals were scored, but "FROM game LEFT JOIN goal" or "FROM goal RIGHT JOIN game" returns all of the results from the table game, even if no goal was scored.
